@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Express JS</title>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <h2>Data</h2>
+    <div id="root"></div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link" onclick="loadPage(1)">1</a></li>
+        <li class="page-item"><a class="page-link" onclick="loadPage(2)">2</a></li>
+        <li class="page-item"><a class="page-link" onclick="loadPage(3)">3</a></li>
+      </ul>
+    </nav>
+  
+</body>
+  <script>
+     async function loadPage(id) {
+       console.log(id)
+       document.querySelector('#root').innerHTML = ''
+       const data = await fetch(`/users?page=${id}`)
+       const result = await data.json()
+
+       for (let i = 0; i < result.length; i++) {
+        const user = result[i]
+        const root = document.querySelector('#root')
+        
+        const item = document.createElement('div');
+        item.className = 'item';
+
+        const usernameSpan = document.createElement('span');
+        usernameSpan.innerHTML = `<strong>User Name</strong>: ${user.username}`;
+        
+        const passwordSpan = document.createElement('span');
+        passwordSpan.innerHTML = `<strong>Password</strong>: ${user.password}`;
+
+        item.appendChild(usernameSpan);
+        item.appendChild(passwordSpan);
+
+        root.appendChild(item);
+       }
+
+     }
+  </script>
+</html>
